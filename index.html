@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioCare – Heart Disease Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 400px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>CardioCare – Heart Disease Prediction</h1>
+    <p>Enter your health details to predict heart disease risk.</p>
+    <form id="predictionForm">
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+
+        <label for="cholesterol">Cholesterol (mg/dL):</label>
+        <input type="number" id="cholesterol" step="0.1" required>
+
+        <label for="bloodPressure">Blood Pressure (mmHg):</label>
+        <input type="number" id="bloodPressure" step="0.1" required>
+
+        <label for="sugar">Sugar (mg/dL):</label>
+        <input type="number" id="sugar" step="0.1" required>
+
+        <label for="lifestyle">Lifestyle:</label>
+        <select id="lifestyle" required>
+            <option value="healthy">Healthy</option>
+            <option value="unhealthy">Unhealthy</option>
+        </select>
+
+        <button type="submit">Predict Risk</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const age = parseFloat(document.getElementById('age').value);
+            const chol = parseFloat(document.getElementById('cholesterol').value);
+            const bp = parseFloat(document.getElementById('bloodPressure').value);
+            const sugar = parseFloat(document.getElementById('sugar').value);
+            const lifestyle = document.getElementById('lifestyle').value;
+
+            // Dummy probability calculation (simulating ML model)
+            let normAge = age / 100;
+            let normChol = chol / 300;
+            let normBP = bp / 200;
+            let normSugar = sugar / 200;
+
+            let prob = (
+            normAge * 0.3 +
+            normChol * 0.2 +
+            normBP * 0.25 +
+            normSugar * 0.15 +
+            (lifestyle === 'unhealthy' ? 0.2 : 0)
+            );
+
+            prob = Math.max(0, Math.min(1, prob));
+
+
+            let prediction;
+            if (prob < 0.3) {
+                prediction = 'Low Risk';
+            } else if (prob < 0.7) {
+                prediction = 'Medium Risk';
+            } else {
+                prediction = 'High Risk';
+            }
+
+            document.getElementById('result').innerHTML = `Prediction: ${prediction}<br>Probability: ${prob.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>
